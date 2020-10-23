@@ -51,10 +51,19 @@ class Hand:
         self.aces = 0
 
     def add_card(self,card):
-        pass
+        # card passed in is from Deck.deal().  Deck.deal() is a single card(suit, rank)
+        self.cards.append(card)
+        self.value += value[card.rank]
+
+        # track aces
+        if card.rank == 'Ace':
+            self.aces += 1
 
     def adjust_for_ace(self):
-        pass
+        # IF TATAL VALUE > 21 AND I STILL HAVE AN ACE THEN CHANGE MY ACE TO BE A 1 INSTEAD OF AN 11.
+        while self.value > 21 and self.aces > 0:
+            self.value -= 10
+            self.aces -= 1
 
 #-----------------------------------------------------------------------------#
 
@@ -64,7 +73,65 @@ class Chips:
         self.bet = 0
 
     def win_bet(self):
-        pass
+        self.total = self.total + bet
 
     def lose_bet(self):
-        pass
+        self.total = self.total - bet
+
+#-----------------------------------------------------------------------------#
+
+def take_bet(chips):
+    while True:
+        try:
+            chips.bet = int(input("How many chips would you like to bet?"))
+        except:
+            print("Sorry, please provide an integer")
+        else:
+            if chips.bet > chips.total:
+                print("Sorry, you don't have enough chips.  You have: {}".format(chips.total))
+            else:
+                break
+
+#-----------------------------------------------------------------------------#
+
+def hit(deck,hand):
+    single_card = deck.deal()
+    hand.add_card(single_card)
+    hand.adjust_for_ace()
+
+#-----------------------------------------------------------------------------#
+
+def hit_or_stand(deck,hand):
+    global palying
+    while True:
+        x = input("Hit or stand?  Enter h or s")
+        if x[0].lower() == 'h':
+            hit(deck,hand)
+        elif x[0].lower() == 's':
+            print("Player stands, dealer's turn")
+            playing = False
+        else:
+            print("Sorry, I did not understand that, please enter h or s")
+            contine
+        break
+
+#-----------------------------------------------------------------------------#
+
+def player_busts(player,dealer,chips):
+    print("Player Busts!")
+    chips.lose_bet()
+
+def player_wins(player,dealer,chips):
+    print("Player Wins!")
+    chips.win_bet()
+
+def dealer_busts(player,dealer,chips):
+    print("Player Wins!  Dealer busted")
+    chips.win_bet()
+
+def dealer_wins(player,dealer,chips):
+    print("Dealer Wins!")
+    chips.lose_bet()
+
+def push(player,dealer,chips):
+    print('Dealer and player tie! PUSH')
