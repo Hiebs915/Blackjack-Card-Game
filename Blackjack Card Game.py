@@ -3,7 +3,7 @@ suits = ('Hearts', 'Diamonds', 'Spades', 'Clubs')
 ranks = ('Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Jack', 'Queen', 'King', 'Ace')
 values = {'Two':2, 'Three':3, 'Four':4, 'Five':5, 'Six':6, 'Seven':7, 'Eight':8, 'Nine':9, 'Ten':10, 'Jack':11, 'Queen':12, 'King':13, 'Ace':14}
 
-palying = True
+playing = True
 
 #-----------------------------------------------------------------------------#
 
@@ -62,15 +62,16 @@ class Hand:
 #-----------------------------------------------------------------------------#
 
 class Chips:
+
     def __init__(self):
         self.total = 100  # This can be set to a default value or supplied by a user input
         self.bet = 0
 
     def win_bet(self):
-        self.total = self.total + bet
+        self.total += self.bet
 
     def lose_bet(self):
-        self.total = self.total - bet
+        self.total -= self.bet
 
 #-----------------------------------------------------------------------------#
 
